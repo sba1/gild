@@ -1,0 +1,35 @@
+#! /usr/bin/python
+#
+# The main gild script that wraps the commands.
+#
+# (c) 2015 by Sebastian Bauer
+#
+
+import glob
+import os.path
+import sys
+import argparse
+from subprocess import call
+
+script = os.path.realpath(sys.argv[0])
+scriptdir = os.path.realpath(os.path.dirname(script))
+progname = os.path.basename(sys.argv[0])
+
+commands = glob.glob(os.path.join(scriptdir,"gild-*"))
+commands = [os.path.basename(command )for command in commands]
+commands = sorted([command[5:] for command in commands])
+
+if len(sys.argv)<2:
+	print("usage: " + progname + " <command> [<args>]" )
+	print("\nAvailable commands:")
+	print("\n".join(["   " + command for command in commands]))
+	sys.exit(0)
+
+command = sys.argv[1]
+
+if command not in commands:
+	sys.exit(progname + ": '" + command + "' is not a gild command.")
+
+real_command = os.path.join(scriptdir,"gild-" + command)
+
+call([real_command] + sys.argv[2:])
