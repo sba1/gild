@@ -27,3 +27,19 @@ wraps all available scripts, in which case these become commands to ```gild```.
 
 Commands
 --------
+
+```
+usage: gild <command> [<args>]
+
+Available commands:
+   checkout
+   clone
+   deploy
+   echo
+   genpatch
+   get
+   list
+   svnconv
+
+```
+
