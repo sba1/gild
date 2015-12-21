@@ -17,3 +17,13 @@ of git commits applied to a baseline, which means that you can use every day git
 commands to maintain your changes. The gild tools merely assist you to create patches
 from it and to apply them afterwards on fresh checkouts. For now, the baseline must
 be specified as a git repository, similary to a git submodule.
+
+Usage
+-----
+
+The gild tools are in a very early stage. All tools are placed in the ```bin```
+directory, most of them require Python. There is a script called ```gild``` that
+wraps all available scripts, in which case these become commands to ```gild```.
+
+Commands
+--------
