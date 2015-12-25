@@ -19,10 +19,27 @@ commands = glob.glob(os.path.join(scriptdir,"gild-*"))
 commands = [os.path.basename(command )for command in commands]
 commands = sorted([command[5:] for command in commands])
 
+# Until commands are proper libs or we devise anothe mechansim,
+# we know the short helps here
+def get_short_help(command):
+	short_help = {
+		"clone": "Clone all repositories managed by gild",
+		"checkout": "Checkout a specific version of a specific component",
+		"genpatch": "Generate patches for a component against a baseline",
+		"get": "Get baseline archive",
+		"list": "List gild-managed components and versions"
+	}
+	try:
+		return short_help[command]
+	except KeyError:
+		return ""
+
+
 if len(sys.argv)<2:
 	print("usage: " + progname + " <command> [<args>]" )
 	print("\nAvailable commands:")
-	print("\n".join(["   " + command for command in commands]))
+	width = max([len(command) for command in commands]) + 2
+	print("\n".join(["   " + command.ljust(width) + " " + get_short_help(command) for command in commands]))
 	sys.exit(0)
 
 command = sys.argv[1]
