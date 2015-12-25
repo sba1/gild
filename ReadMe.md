@@ -32,14 +32,11 @@ Commands
 usage: gild <command> [<args>]
 
 Available commands:
-   checkout
-   clone
-   deploy
-   echo
-   genpatch
-   get
-   list
-   svnconv
+   checkout   Checkout a specific version of a specific component
+   clone      Clone all repositories managed by gild
+   genpatch   Generate patches for a component against a baseline
+   get        Get baseline archive
+   list       List gild-managed components and versions
 
 ```
 
