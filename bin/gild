@@ -15,6 +15,14 @@ script = os.path.realpath(sys.argv[0])
 scriptdir = os.path.realpath(os.path.dirname(script))
 progname = os.path.basename(sys.argv[0])
 
+# Some commands shall be ignored for help as they are
+# not mature enough or just my own experiments
+ignored_commands = set([
+	"deploy",
+	"echo",
+	"svnconv"
+	])
+
 commands = glob.glob(os.path.join(scriptdir,"gild-*"))
 commands = [os.path.basename(command )for command in commands]
 commands = sorted([command[5:] for command in commands])
@@ -36,6 +44,7 @@ def get_short_help(command):
 
 
 if len(sys.argv)<2:
+	commands = [command for command in commands if command not in ignored_commands]
 	print("usage: " + progname + " <command> [<args>]" )
 	print("\nAvailable commands:")
 	width = max([len(command) for command in commands]) + 2
