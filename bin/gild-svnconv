@@ -50,8 +50,8 @@ else: patch_dir = "."
 svn_log = check_output(["svn", "log", "--xml", changed_url])
 svn_log_dom = parseString(svn_log)
 
-work_dir = tempfile.mkdtemp(prefix='tmpadtwork')
-patch_repo_dir = tempfile.mkdtemp(prefix='tmpadtpatch')
+work_dir = tempfile.mkdtemp(prefix='tmpgildwork')
+patch_repo_dir = tempfile.mkdtemp(prefix='tmpgildpatch')
 patch_dir = os.path.join(patch_repo_dir, patch_dir);
 
 os.makedirs(patch_dir)
