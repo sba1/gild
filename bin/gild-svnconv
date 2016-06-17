@@ -87,7 +87,8 @@ for e in svn_log_entries:
     rev = int(e.getAttribute("revision"))
     if int(rev) < start_rev:continue
     msg = e.getElementsByTagName("msg")[0].firstChild.nodeValue
-    pair = {'rev': rev, 'msg': msg}
+    author = e.getElementsByTagName("author")[0].firstChild.nodeValue
+    pair = {'rev': rev, 'msg': msg, 'author': author}
     svn_logs.append(pair)
 
 # Sort according to the rev in ascending order
