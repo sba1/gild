@@ -18,7 +18,6 @@ progname = os.path.basename(sys.argv[0])
 # Some commands shall be ignored for help as they are
 # not mature enough or just my own experiments
 ignored_commands = set([
-	"deploy",
 	"echo",
 	"svnconv"
 	])
