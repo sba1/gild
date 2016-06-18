@@ -20,6 +20,7 @@ from xml.dom.minidom import parseString
 
 script = os.path.realpath(sys.argv[0])
 root = os.path.realpath(os.path.dirname(script) + "/../")
+authors_file = None
 
 parser = argparse.ArgumentParser(description='Convert svn vendor branches to patches')
 
@@ -38,6 +39,10 @@ parser.add_argument('--patch-dir', help="""
     Defines the name of the directory that should contain the patches within the
     patch repository. Default is to use the root of the patch repo.
     """)
+parser.add_argument('--authors-file', help="""
+    Defines a file that contains the  svn login to git author mapping. The
+    format for that file is similar to git-svn, i.e., <login> = <git author>.
+    """)
 args = parser.parse_args()
 
 changed_url = args.changes_url #"file:///home/sba/amiga/adtools.svn/code/trunk/coreutils"
@@ -47,8 +52,38 @@ start_rev = args.start_rev # 342
 if args.patch_dir: patch_dir = args.patch_dir
 else: patch_dir = "."
 
+if args.authors_file:
+    authors_file = args.authors_file
+
 svn_log = check_output(["svn", "log", "--xml", changed_url])
 svn_log_dom = parseString(svn_log)
+
+# Our list of svn logs comprising dicts with 'rev' and 'msg' keys
+svn_logs = []
+
+# "Plain" xml svn log entries
+svn_log_entries = svn_log_dom.getElementsByTagName("logentry")
+for e in svn_log_entries:
+    rev = int(e.getAttribute("revision"))
+    if int(rev) < start_rev:continue
+    msg = e.getElementsByTagName("msg")[0].firstChild.nodeValue
+    author = e.getElementsByTagName("author")[0].firstChild.nodeValue
+    pair = {'rev': rev, 'msg': msg, 'author': author}
+    svn_logs.append(pair)
+
+# All authors of the svn history
+svn_authors = { e['author'] for e in svn_logs }
+
+author_mapping = None
+if authors_file is not None:
+    with open(authors_file) as f:
+        lines = f.readlines()
+        author_mapping = { col[0].strip() : col[1].strip() for col in (line.split('=') for line in lines) }
+
+if author_mapping is not None:
+    authors_diff = svn_authors.difference(author_mapping.keys())
+    if authors_diff:
+        sys.exit("Following logins could not be mapped via '{0}': {1}".format(authors_file,", ".join(authors_diff)))
 
 work_dir = tempfile.mkdtemp(prefix='tmpgildwork')
 patch_repo_dir = tempfile.mkdtemp(prefix='tmpgildpatch')
@@ -78,25 +113,15 @@ def clean_workdir():
         if os.path.isfile(fp): os.unlink(fp)
         elif os.path.isdir(fp): shutil.rmtree(fp)
 
-# Our list of svn logs comprising dicts with 'rev' and 'msg' keys
-svn_logs = []
-
-# "Plain" xml svn log entries
-svn_log_entries = svn_log_dom.getElementsByTagName("logentry")
-for e in svn_log_entries:
-    rev = int(e.getAttribute("revision"))
-    if int(rev) < start_rev:continue
-    msg = e.getElementsByTagName("msg")[0].firstChild.nodeValue
-    author = e.getElementsByTagName("author")[0].firstChild.nodeValue
-    pair = {'rev': rev, 'msg': msg, 'author': author}
-    svn_logs.append(pair)
-
 # Sort according to the rev in ascending order
 svn_logs = sorted(svn_logs, key = lambda k: k['rev'])
+
+current_authors = set()
 
 for log in svn_logs:
 	rev = log['rev']
 	msg = log['msg']
+	author = log['author']
 
 	os.chdir(work_dir)
 
@@ -106,7 +131,15 @@ for log in svn_logs:
 	call(["git","rm", "-r", "."])
 	call(["svn", "export", changed_url, "-r"+str(rev),"--force","."])
 	call(["git","add","."])
-	call(["git","commit","-m","Changes for AmigaOS imported from adtools svn"])
+
+	if author_mapping is not None:
+		current_authors.add(author_mapping[author])
+		also_by = ["Also-by: " + author for author in current_authors]
+		commit_msg = "Changes for AmigaOS imported from adtools svn\n\n{0}".format("\n".join(also_by))
+	else:
+		commit_msg = "Changes for AmigaOS imported from adtools svn"
+
+	call(["git","commit","-m",commit_msg])
 
 	call(["git","format-patch","-U6","--find-copies-harder","--full-index","master","-o",patch_dir])
 
