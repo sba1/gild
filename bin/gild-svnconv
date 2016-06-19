@@ -68,8 +68,8 @@ for e in svn_log_entries:
     if int(rev) < start_rev:continue
     msg = e.getElementsByTagName("msg")[0].firstChild.nodeValue
     author = e.getElementsByTagName("author")[0].firstChild.nodeValue
-    pair = {'rev': rev, 'msg': msg, 'author': author}
-    svn_logs.append(pair)
+    date = e.getElementsByTagName("date")[0].firstChild.nodeValue
+    svn_logs.append({'rev': rev, 'msg': msg, 'author': author, 'date': date})
 
 # All authors of the svn history
 svn_authors = { e['author'] for e in svn_logs }
