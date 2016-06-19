@@ -117,6 +117,7 @@ def clean_workdir():
 svn_logs = sorted(svn_logs, key = lambda k: k['rev'])
 
 current_authors = set()
+current_authors_list = []
 
 for log in svn_logs:
 	rev = log['rev']
@@ -133,8 +134,11 @@ for log in svn_logs:
 	call(["git","add","."])
 
 	if author_mapping is not None:
-		current_authors.add(author_mapping[author])
-		also_by = ["Also-by: " + author for author in current_authors]
+		author_mapped = author_mapping[author]
+		if author_mapped not in current_authors:
+			current_authors.add(author_mapped)
+			current_authors_list.append(author_mapped)
+		also_by = ["Also-by: " + author for author in current_authors_list]
 		commit_msg = "Changes for AmigaOS imported from adtools svn\n\n{0}".format("\n".join(also_by))
 	else:
 		commit_msg = "Changes for AmigaOS imported from adtools svn"
