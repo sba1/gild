@@ -14,6 +14,8 @@ import sys
 import argparse
 import tempfile
 import shutil
+import datetime
+
 from subprocess import call
 from subprocess import check_output
 from xml.dom.minidom import parseString
@@ -69,6 +71,7 @@ for e in svn_log_entries:
     msg = e.getElementsByTagName("msg")[0].firstChild.nodeValue
     author = e.getElementsByTagName("author")[0].firstChild.nodeValue
     date = e.getElementsByTagName("date")[0].firstChild.nodeValue
+    date = datetime.datetime.strptime(date,"%Y-%m-%dT%H:%M:%S.%fZ")
     svn_logs.append({'rev': rev, 'msg': msg, 'author': author, 'date': date})
 
 # All authors of the svn history
