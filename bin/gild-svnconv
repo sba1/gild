@@ -126,6 +126,7 @@ for log in svn_logs:
 	rev = log['rev']
 	msg = log['msg']
 	author = log['author']
+	date = log['date']
 
 	os.chdir(work_dir)
 
@@ -146,7 +147,9 @@ for log in svn_logs:
 	else:
 		commit_msg = "Changes for AmigaOS imported from adtools svn"
 
-	call(["git","commit","-m",commit_msg])
+	env = os.environ.copy()
+	env["GIT_AUTHOR_DATE"]=date.strftime("%a %b %d %H:%M:%S %Y %z")
+	call(["git","commit","-m",commit_msg], env=env)
 
 	call(["git","format-patch","-U6","--find-copies-harder","--full-index","master","-o",patch_dir])
 
