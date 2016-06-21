@@ -155,7 +155,7 @@ for log in svn_logs:
 
 	os.chdir(patch_repo_dir)
 	call(["git","add","."])
-	call(["git","commit","-m",msg])
+	call(["git","commit","-m",msg],env=env)
 
 	print(log['msg'])
 
