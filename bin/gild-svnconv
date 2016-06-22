@@ -101,12 +101,15 @@ os.chdir(work_dir)
 call(["git","init"])
 call(["git","init",patch_repo_dir])
 
-# export base
-call(["svn", "export", vendor_url, "--force","."])
+# checkout vendor base into work_dir
+call(["svn", "checkout", vendor_url, "--force","."])
 
-# add everything to git
-call(["git","add","."])
-call(["git", "commit","-m", "Initial commit."])
+# add all paths to git, do not stage them though
+call(["git","add","-N","."])
+# Remove .svn (FIXME: Should also look into subdirs in case an older version
+# of svn is in use)
+call(["git", "rm", "--quiet", "--cached", "-r", ".svn"])
+call(["git", "commit","-a","-m", "Initial commit."])
 
 def clean_workdir():
     # Clean everything expect for .git (could also move .git somewhere else)
@@ -122,6 +125,9 @@ svn_logs = sorted(svn_logs, key = lambda k: k['rev'])
 current_authors = set()
 current_authors_list = []
 
+# Will contain --amend later
+amend = []
+
 for log in svn_logs:
 	rev = log['rev']
 	msg = log['msg']
@@ -130,12 +136,10 @@ for log in svn_logs:
 
 	os.chdir(work_dir)
 
-	call(["git","checkout","master"])
 	call(["git","checkout","-b","changes"+str(rev)])
-	clean_workdir()
-	call(["git","rm", "-r", "."])
-	call(["svn", "export", changed_url, "-r"+str(rev),"--force","."])
-	call(["git","add","."])
+	call(["svn","switch", changed_url,"-r"+str(rev),"--force","."])
+	call(["git","add", "-N","."])
+	call(["git","rm", "--quiet", "--cached", "-r", ".svn"])
 
 	if author_mapping is not None:
 		author_mapped = author_mapping[author]
@@ -148,11 +152,15 @@ for log in svn_logs:
 		commit_msg = "Changes for AmigaOS imported from adtools svn"
 
 	env = os.environ.copy()
-	env["GIT_AUTHOR_DATE"]=date.strftime("%a %b %d %H:%M:%S %Y %z")
-	call(["git","commit","-m",commit_msg], env=env)
+	author_date = date.strftime("%a %b %d %H:%M:%S %Y %z")
+	env["GIT_AUTHOR_DATE"] = author_date
+	call(["git","commit"] + amend + ["-a","--date",author_date,"-m",commit_msg], env=env)
+	amend = ['--amend']
 
+    # Create patch
 	call(["git","format-patch","-U6","--find-copies-harder","--full-index","master","-o",patch_dir])
 
+    # Commit patch
 	os.chdir(patch_repo_dir)
 	call(["git","add","."])
 	call(["git","commit","-m",msg],env=env)
