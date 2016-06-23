@@ -33,6 +33,9 @@ parser.add_argument('changes_url', metavar='changes-url', help="""
     The URL to the branch that contains changes to the vendor branch. For each
     considered commit, an new patch against the base is generated.
     """)
+parser.add_argument('-m', help="""
+    Commit message to use.
+	""")
 parser.add_argument('--start-rev', type=int, help="""
     Define the first revision of the changes branch for which a patch should be
     generated.
@@ -50,6 +53,8 @@ args = parser.parse_args()
 changed_url = args.changes_url #"file:///home/sba/amiga/adtools.svn/code/trunk/coreutils"
 vendor_url = args.vendor_url #"file:///home/sba/amiga/adtools.svn/code/vendor/coreutils/5.2.1"
 start_rev = args.start_rev # 342
+if args.m is not None: message = args.m
+else: message = "Changes"
 
 if args.patch_dir: patch_dir = args.patch_dir
 else: patch_dir = "."
@@ -139,9 +144,9 @@ for log in svn_logs:
 			current_authors.add(author_mapped)
 			current_authors_list.append(author_mapped)
 		also_by = ["Also-by: " + author for author in current_authors_list]
-		commit_msg = "Changes for AmigaOS imported from adtools svn\n\n{0}".format("\n".join(also_by))
+		commit_msg = "{0}\n\n{1}".format(message,"\n".join(also_by))
 	else:
-		commit_msg = "Changes for AmigaOS imported from adtools svn"
+		commit_msg = message
 
 	env = os.environ.copy()
 	author_date = date.strftime("%a %b %d %H:%M:%S %Y %z")
