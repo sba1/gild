@@ -111,14 +111,6 @@ call(["git","add","-N","."])
 call(["git", "rm", "--quiet", "--cached", "-r", ".svn"])
 call(["git", "commit","-a","-m", "Initial commit."])
 
-def clean_workdir():
-    # Clean everything expect for .git (could also move .git somewhere else)
-    for p in os.listdir("."):
-        if ".git" == p: continue
-        fp = os.path.join(".", p);
-        if os.path.isfile(fp): os.unlink(fp)
-        elif os.path.isdir(fp): shutil.rmtree(fp)
-
 # Sort according to the rev in ascending order
 svn_logs = sorted(svn_logs, key = lambda k: k['rev'])
 
