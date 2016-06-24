@@ -18,8 +18,7 @@ progname = os.path.basename(sys.argv[0])
 # Some commands shall be ignored for help as they are
 # not mature enough or just my own experiments
 ignored_commands = set([
-	"echo",
-	"svnconv"
+	"echo"
 	])
 
 commands = glob.glob(os.path.join(scriptdir,"gild-*"))
