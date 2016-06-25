@@ -33,7 +33,8 @@ def get_short_help(command):
 		"checkout": "Checkout a specific version of a specific component",
 		"genpatch": "Generate patches for a component against a baseline",
 		"get": "Get baseline archive",
-		"list": "List gild-managed components and versions"
+		"list": "List gild-managed components and versions",
+		"svnconv": "Convert an svn vendor branch repository to a gild-based one"
 	}
 	try:
 		return short_help[command]
