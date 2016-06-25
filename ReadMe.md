@@ -37,6 +37,7 @@ Available commands:
    genpatch   Generate patches for a component against a baseline
    get        Get baseline archive
    list       List gild-managed components and versions
+   svnconv    Convert an svn vendor branch repository to a gild-based one
 
 ```
 
