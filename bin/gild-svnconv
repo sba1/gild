@@ -50,9 +50,9 @@ parser.add_argument('--authors-file', help="""
     """)
 args = parser.parse_args()
 
-changed_url = args.changes_url #"file:///home/sba/amiga/adtools.svn/code/trunk/coreutils"
-vendor_url = args.vendor_url #"file:///home/sba/amiga/adtools.svn/code/vendor/coreutils/5.2.1"
-start_rev = args.start_rev # 342
+changed_url = args.changes_url
+vendor_url = args.vendor_url
+start_rev = args.start_rev
 if args.m is not None: message = args.m
 else: message = "Changes"
 
