@@ -1,6 +1,6 @@
 #!/usr/bin/python
 #
-# (c) 2015 by Sebastian Bauer
+# (c) 2015,2016 by Sebastian Bauer
 #
 # This simple script takes the ReadMe.md file as input and regenerates
 # the "Commands" sections using "bin/gild"

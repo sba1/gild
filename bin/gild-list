@@ -3,7 +3,7 @@
 # This script shows all packages that can be cloned and the
 # branches that can be checked out
 #
-# (c) 2015 by Sebastian Bauer
+# (c) 2015,2015 by Sebastian Bauer
 #
 
 from __future__ import print_function

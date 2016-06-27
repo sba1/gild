@@ -2,7 +2,7 @@
 #
 # The main gild script that wraps the commands.
 #
-# (c) 2015 by Sebastian Bauer
+# (c) 2015,2016 by Sebastian Bauer
 #
 
 import glob

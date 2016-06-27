@@ -2,7 +2,7 @@
 #
 # This script generates the patches for a specific branch.
 #
-# (c) 2014 by Sebastian Bauer
+# (c) 2014-2016 by Sebastian Bauer
 #
 
 import os.path

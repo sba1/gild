@@ -3,7 +3,7 @@
 # This script converts a svn vendor branch to pacthes as
 # organized in this project
 #
-# (c) 2015 by Sebastian Bauer
+# (c) 2015,2016 by Sebastian Bauer
 #
 
 from __future__ import print_function
