@@ -84,3 +84,11 @@ looks like this:
 ```
 
 Note that the structure is subject to change.
+
+Converting SVN Vendor Branches
+------------------------------
+
+The ```svnconv``` command allows one to convert a svn vendor approach repository
+layout to a gild-base one. Each commit in the ```branches``` directory will be
+represented as a patch against the base version, usually stored in the ```vendor```
+directory.
