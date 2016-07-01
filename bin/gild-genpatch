@@ -10,8 +10,7 @@ import sys
 import argparse
 from subprocess import call
 
-script = os.path.realpath(sys.argv[0])
-root = os.path.realpath(os.path.dirname(script) + "/../")
+root = os.getcwd()
 
 parser = argparse.ArgumentParser(description='Generate patches for a specific branch of a component')
 parser.add_argument('component')

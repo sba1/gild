@@ -12,8 +12,7 @@ import sys
 import argparse
 from subprocess import call
 
-script = os.path.realpath(sys.argv[0])
-root = os.path.realpath(os.path.dirname(script) + "/../")
+root = os.getcwd()
 
 parser = argparse.ArgumentParser(description='Check out a specific branch for a component and apply patches')
 parser.add_argument('component')
@@ -54,4 +53,3 @@ all_patches = sorted(glob.glob(patches))
 # Apply them (if any)
 if len(all_patches) > 0:
 	call(["git", "am", "--3way"] + all_patches)
-

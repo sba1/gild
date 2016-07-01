@@ -13,8 +13,7 @@ import sys
 import argparse
 from subprocess import call
 
-script = os.path.realpath(sys.argv[0])
-root = os.path.realpath(os.path.dirname(script) + "/../")
+root = os.getcwd()
 
 components = [os.path.dirname(p) for p in glob.glob("*/*.url")]
 components = sorted(components)

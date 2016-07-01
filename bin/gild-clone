@@ -12,8 +12,7 @@ import sys
 import argparse
 from subprocess import call
 
-script = os.path.realpath(sys.argv[0])
-root = os.path.realpath(os.path.dirname(script) + "/../")
+root = os.getcwd()
 
 components = [os.path.dirname(p) for p in glob.glob("*/*.url")]
 
@@ -32,4 +31,3 @@ for component in components:
 		repo = open("repo.url").readline().strip()
 		print(component + ': Cloning repo')
 		call(['git', 'clone', repo, 'repo'])
-

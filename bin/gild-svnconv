@@ -20,8 +20,7 @@ from subprocess import call
 from subprocess import check_output
 from xml.dom.minidom import parseString
 
-script = os.path.realpath(sys.argv[0])
-root = os.path.realpath(os.path.dirname(script) + "/../")
+root = os.getcwd()
 authors_file = None
 
 parser = argparse.ArgumentParser(description='Convert svn vendor branches to patches')
