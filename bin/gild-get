@@ -11,6 +11,8 @@ import sys
 import argparse
 from subprocess import call
 
+from gildutils import find_component_base
+
 parser = argparse.ArgumentParser(description='Download the baseline distribution')
 parser.add_argument('component')
 parser.add_argument('branch')
@@ -20,15 +22,7 @@ parser.add_argument('--print-url-only', dest='print_url_only', action='store_tru
 args = parser.parse_args()
 
 cdir = os.getcwd()
-root = os.getcwd()
-
-# Find a possible root and base directories
-while True:
-	base = os.path.join(root, args.component)
-	if os.path.isdir(base): break
-	last_root = root
-	root = os.path.dirname(root)
-	if root == last_root: sys.exit("No gild folder structure found.")
+base = find_component_base(args.component)
 
 # The series file relating branches to checkout ids
 series = os.path.join(base, "series")
