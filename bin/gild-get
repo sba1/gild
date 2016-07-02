@@ -19,11 +19,16 @@ parser.add_argument('--print-url-only', dest='print_url_only', action='store_tru
   """)
 args = parser.parse_args()
 
-root = os.getcwd()
 cdir = os.getcwd()
+root = os.getcwd()
 
-# The base path
-base = os.path.join(root, args.component)
+# Find a possible root and base directories
+while True:
+	base = os.path.join(root, args.component)
+	if os.path.isdir(base): break
+	last_root = root
+	root = os.path.dirname(root)
+	if root == last_root: sys.exit("No gild folder structure found.")
 
 # The series file relating branches to checkout ids
 series = os.path.join(base, "series")
