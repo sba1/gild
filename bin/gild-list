@@ -14,6 +14,7 @@ import argparse
 from subprocess import call
 
 from gildutils import get_components
+from gildutils import find_component_base
 
 root = os.getcwd()
 
@@ -25,7 +26,7 @@ parser = argparse.ArgumentParser(description="""
 args = parser.parse_args()
 
 for component in components:
-	base = os.path.join(root, component)
+	base = find_component_base(component)
 	series = os.path.join(base, "series")
 	lines = [line.strip() for line in open(series)]
 	for line in lines:
