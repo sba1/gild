@@ -6,15 +6,16 @@
 #
 
 from __future__ import print_function
-import glob
 import os
 import sys
 import argparse
 from subprocess import call
 
+from gildutils import get_components
+
 root = os.getcwd()
 
-components = [os.path.dirname(p) for p in glob.glob("*/*.url")]
+components = get_components()
 
 parser = argparse.ArgumentParser(description="""
 	Clone or fetch baselines for all components. Available components:

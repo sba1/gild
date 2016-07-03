@@ -1,5 +1,6 @@
 """Some simple utils for gild"""
 
+import glob
 import os.path
 import sys
 
@@ -13,3 +14,7 @@ def find_component_base(component):
 		root = os.path.dirname(root)
 		if root == last_root: sys.exit("No gild folder structure found.")
 	return base
+
+def get_components():
+	"""Returns the names all components."""
+	return [os.path.dirname(p) for p in glob.glob("*/*.url")]
