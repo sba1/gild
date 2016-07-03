@@ -32,4 +32,7 @@ def find_component_base(component):
 
 def get_components():
 	"""Returns the names all components."""
-	return [os.path.dirname(p) for p in glob.glob("*/*.url")]
+	root = get_gild_root()
+	if root is None: sys.exit("No gild folder structure found.")
+	# FIXME: Should probably return all names without the prefix (instead just the last pathname)
+	return [os.path.basename(os.path.dirname(p)) for p in glob.glob(os.path.join(root, "*","*.url"))]
