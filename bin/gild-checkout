@@ -12,7 +12,7 @@ import sys
 import argparse
 from subprocess import call
 
-root = os.getcwd()
+from gildutils import find_component_base
 
 parser = argparse.ArgumentParser(description='Check out a specific branch for a component and apply patches')
 parser.add_argument('component')
@@ -20,7 +20,7 @@ parser.add_argument('branch')
 args = parser.parse_args()
 
 # The base path
-base = os.path.join(root, args.component)
+base = find_component_base(root, args.component)
 
 # The series file relating branches to checkout ids
 series = os.path.join(base, "series")
