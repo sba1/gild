@@ -10,6 +10,8 @@ import sys
 import argparse
 from subprocess import call
 
+from gildutils import find_component_base
+
 root = os.getcwd()
 
 parser = argparse.ArgumentParser(description='Generate patches for a specific branch of a component')
@@ -17,8 +19,7 @@ parser.add_argument('component')
 parser.add_argument('branch')
 args = parser.parse_args()
 
-# The base path
-base = os.path.join(root, args.component)
+base = find_component_base(args.component)
 
 # The series file relating branches to checkout ids
 series = os.path.join(base, "series")
