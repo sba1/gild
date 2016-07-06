@@ -1,7 +1,7 @@
 #! /usr/bin/python
 #
-# This script converts a svn vendor branch to pacthes as
-# organized in this project
+# This script converts a svn vendor branch to patches in the format
+# used by gild.
 #
 # (c) 2015,2016 by Sebastian Bauer
 #
