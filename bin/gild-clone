@@ -18,11 +18,25 @@ root = os.getcwd()
 components = get_components()
 
 parser = argparse.ArgumentParser(description="""
-	Clone or fetch baselines for all components. Available components:
+	Clone or fetch baselines for all or selected components. Available components:
 	""" + ", ".join(components))
+
+parser.add_argument('component', nargs='*', help="The components which to clone. If not specified, all components are cloned.")
+
 args = parser.parse_args()
 
+sel_component = args.component
+if sel_component is None:
+	sel_component = components
+unknown_components = list(set(sel_component) - set(components))
+if len(unknown_components):
+	print("Unknown components: " + ", ".join(unknown_components))
+	sys.exit(1)
+
 for component in components:
+	if component not in sel_component:
+		print(component + ': Ignored')
+		continue
 	os.chdir(os.path.join(root,component))
 	if os.path.exists("repo"):
 		os.chdir("repo")
