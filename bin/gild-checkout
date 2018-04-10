@@ -13,6 +13,7 @@ import argparse
 from subprocess import call
 
 from gildutils import find_component_base
+from gildutils import get_repo_url
 
 parser = argparse.ArgumentParser(description='Check out a specific branch for a component and apply patches')
 parser.add_argument('component')
@@ -42,7 +43,20 @@ for line in lines:
 if not branchok:
 	sys.exit("Couldn't find requested branch")
 
-os.chdir(os.path.join(base,"repo"))
+repo_path = os.path.join(base, "repo")
+
+if not os.path.exists(repo_path):
+	# Repo doesn't exist yet, try to initialize it, actually we just
+	# shallow clone enough for that specific branch
+
+	repo_url = get_repo_url(base)
+	os.chdir(base)
+
+	# clone branch 'checkout' or repo_url to 'repo'
+	call(["git", "clone", repo_url, "--depth=1", "-b", checkout, "repo"])
+
+os.chdir(repo_path)
+
 call(["git", "checkout", checkout, "-B", branch])
 call(["git", "branch", "-f", branch+"-base"])
 

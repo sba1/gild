@@ -43,3 +43,8 @@ def get_components():
 	if root is None: sys.exit("No gild folder structure found.")
 	# FIXME: Should probably return all names without the prefix (instead just the last pathname)
 	return [os.path.basename(os.path.dirname(p)) for p in glob.glob(os.path.join(root, "*","*.url"))]
+
+def get_repo_url(component_base):
+	# type: (str) -> str
+	"""Given the full path to a component, returns it repo URL"""
+	return open(os.path.join(component_base, "repo.url")).readline().strip()
