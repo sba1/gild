@@ -4,12 +4,17 @@ import glob
 import os.path
 import sys
 
+if False:
+	from typing import List
+
 def is_gild_root(path):
+	# type: (str) -> bool
 	"""Checks if the given path is a valid gild root"""
 	urls = glob.glob(os.path.join(path,"*","*.url"))
 	return len(urls) > 0
 
 def get_gild_root():
+	# type: () -> str
 	"""Returns the gild root or None if none could be found."""
 	root = os.getcwd()
 	while True:
@@ -20,6 +25,7 @@ def get_gild_root():
 	return None
 
 def find_component_base(component):
+	# type: (str) -> str
 	"""Returns the base directory of the given component or exits the program"""
 	root = os.getcwd()
 	while True:
@@ -31,6 +37,7 @@ def find_component_base(component):
 	return base
 
 def get_components():
+	# type: () -> List[str]
 	"""Returns the names all components."""
 	root = get_gild_root()
 	if root is None: sys.exit("No gild folder structure found.")
