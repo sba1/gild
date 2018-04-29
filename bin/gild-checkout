@@ -16,8 +16,8 @@ from gildutils import find_component_base
 from gildutils import get_repo_url
 
 parser = argparse.ArgumentParser(description='Check out a specific branch for a component and apply patches')
-parser.add_argument('component')
-parser.add_argument('branch')
+parser.add_argument('component', help="The name of the component to be checked out.")
+parser.add_argument('branch', help="The branch as specified in the series.")
 args = parser.parse_args()
 
 # The base path
