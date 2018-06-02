@@ -54,13 +54,21 @@ try:
 except ImportError:
 	pass
 
-args = parser.parse_args()
+# Manually filter -h that was meant for a command
+argv = sys.argv
+command_help = []
+if len(argv) > 2:
+	if argv[2] == '-h' or argv[2] == '--help':
+		command_help = ['-h']
+		del argv[2]
 
-command = sys.argv[1]
+args = parser.parse_args(argv)
+
+command = argv[1]
 
 if command not in commands:
 	sys.exit(progname + ": '" + command + "' is not a gild command.")
 
 real_command = os.path.join(scriptdir,"gild-" + command)
 
-call([real_command] + sys.argv[2:])
+call([real_command] + command_help + argv[2:])
