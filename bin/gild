@@ -41,14 +41,15 @@ def get_short_help(command):
 	except KeyError:
 		return ""
 
+commands = [command for command in commands if command not in ignored_commands]
+width = max([len(command) for command in commands]) + 2
+epilog = "Available commands:\n{0}".format("\n".join(["   " + command.ljust(width) + " " + get_short_help(command) for command in commands]))
 
-if len(sys.argv)<2:
-	commands = [command for command in commands if command not in ignored_commands]
-	print("usage: " + progname + " <command> [<args>]" )
-	print("\nAvailable commands:")
-	width = max([len(command) for command in commands]) + 2
-	print("\n".join(["   " + command.ljust(width) + " " + get_short_help(command) for command in commands]))
-	sys.exit(0)
+parser = argparse.ArgumentParser(description="Manage patches using git", epilog=epilog, formatter_class=argparse.RawDescriptionHelpFormatter)
+parser.add_argument('commmand', help="The command to be invoked.")
+parser.add_argument('args', nargs='*', help="Further command-specific arguments.")
+
+args = parser.parse_args()
 
 command = sys.argv[1]
 
