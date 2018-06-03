@@ -22,7 +22,7 @@ ignored_commands = set([
 	])
 
 commands = glob.glob(os.path.join(scriptdir,"gild-*"))
-commands = [os.path.basename(command )for command in commands]
+commands = [os.path.basename(command) for command in commands]
 commands = sorted([command[5:] for command in commands])
 
 # Until commands are proper libs or we devise anothe mechansim,
