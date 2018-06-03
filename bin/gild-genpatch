@@ -11,12 +11,23 @@ import argparse
 from subprocess import call
 
 from gildutils import find_component_base
+from gildutils import get_components
 
 root = os.getcwd()
 
+def component_completer(**kwargs):
+	return sorted(get_components())
+
 parser = argparse.ArgumentParser(description='Generate patches for a specific branch of a component')
-parser.add_argument('component')
+parser.add_argument('component').completer = component_completer
 parser.add_argument('branch')
+
+try:
+	import argcomplete
+	argcomplete.autocomplete(parser)
+except ImportError:
+	pass
+
 args = parser.parse_args()
 
 base = find_component_base(args.component)
