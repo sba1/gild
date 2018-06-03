@@ -5,11 +5,15 @@
 # (c) 2015,2016 by Sebastian Bauer
 #
 
+from __future__ import print_function
+
 import glob
 import os.path
 import sys
 import argparse
 from subprocess import call
+
+DEBUG = False
 
 script = os.path.realpath(sys.argv[0])
 scriptdir = os.path.realpath(os.path.dirname(script))
@@ -42,6 +46,31 @@ def get_short_help(command):
 		return ""
 
 commands = [command for command in commands if command not in ignored_commands]
+
+if "_ARGCOMPLETE" in os.environ:
+	comp_line = os.environ["COMP_LINE"]
+	comp_point = int(os.environ["COMP_POINT"])
+	if comp_line.startswith(sys.argv[0]):
+		new_comp_line = comp_line[len(sys.argv[0]):].lstrip()
+
+		for c in commands:
+			if new_comp_line.startswith(c):
+				new_cmd = os.path.join(scriptdir,"gild-" + c);
+				new_comp_line = new_cmd + new_comp_line[len(c):]
+
+				# TODO: It seems that is is not necessary to adjust comp_line and comp_point at this time
+
+				if DEBUG:
+					fd = open("/tmp/tttt.txt","w")
+					fd.write("AAA " + new_comp_line + " AAA\n")
+
+					for k in os.environ:
+						fd.write(k + " " + os.environ[k] + "\n")
+					fd.close()
+
+				call([new_cmd] + sys.argv[2:])
+				sys.exit(0)
+
 width = max([len(command) for command in commands]) + 2
 epilog = "Available commands:\n{0}".format("\n".join(["   " + command.ljust(width) + " " + get_short_help(command) for command in commands]))
 
