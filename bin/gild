@@ -58,7 +58,10 @@ if "_ARGCOMPLETE" in os.environ:
 				new_cmd = os.path.join(scriptdir,"gild-" + c);
 				new_comp_line = new_cmd + new_comp_line[len(c):]
 
-				# TODO: It seems that is is not necessary to adjust comp_line and comp_point at this time
+				# Adjust COMP_LINE and COMP_POINT for the sub command
+				new_environ = os.environ.copy()
+				new_environ["COMP_LINE"] = new_comp_line
+				new_environ["COMP_POINT"] = str(comp_point - len(comp_line) + len(new_comp_line))
 
 				if DEBUG:
 					fd = open("/tmp/tttt.txt","w")
@@ -68,7 +71,7 @@ if "_ARGCOMPLETE" in os.environ:
 						fd.write(k + " " + os.environ[k] + "\n")
 					fd.close()
 
-				call([new_cmd] + sys.argv[2:])
+				call([new_cmd] + sys.argv[2:], env=new_environ)
 				sys.exit(0)
 
 width = max([len(command) for command in commands]) + 2
