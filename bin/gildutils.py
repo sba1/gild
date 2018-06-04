@@ -5,7 +5,7 @@ import os.path
 import sys
 
 if False:
-	from typing import List
+	from typing import List, Iterable
 
 def is_gild_root(path):
 	# type: (str) -> bool
@@ -43,6 +43,23 @@ def get_components():
 	if root is None: sys.exit("No gild folder structure found.")
 	# FIXME: Should probably return all names without the prefix (instead just the last pathname)
 	return [os.path.basename(os.path.dirname(p)) for p in glob.glob(os.path.join(root, "*","*.url"))]
+
+class PatchSeries(object):
+	def __init__(self, branch, checkout, url):
+		# type: (str, str, str) -> None
+		self.branch = branch
+		self.checkout = checkout
+		self.url = url
+
+def get_series_of_component(component):
+	# type: (str) -> Iterable[PatchSeries]
+	"""Return info about all registered patch series for the given component"""
+	base = find_component_base(component)
+	series = os.path.join(base, "series")
+	lines = [line.strip() for line in open(series)]
+	for line in lines:
+		branch, checkout, url = line.split("\t")
+		yield PatchSeries(branch, checkout, url)
 
 def get_repo_url(component_base):
 	# type: (str) -> str
