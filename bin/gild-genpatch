@@ -14,13 +14,10 @@ from gildutils import get_components
 from gildutils import get_series_of_component
 from gildutils import find_component_base
 
+from gildutils import component_completer
+from gildutils import branch_completer
+
 root = os.getcwd()
-
-def component_completer(**kwargs):
-	return sorted(get_components())
-
-def branch_completer(prefix, parsed_args, **kwargs):
-	return [s.branch for s in get_series_of_component(parsed_args.component)]
 
 parser = argparse.ArgumentParser(description='Generate patches for a specific branch of a component')
 parser.add_argument('component').completer = component_completer

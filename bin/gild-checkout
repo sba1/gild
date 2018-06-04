@@ -19,12 +19,12 @@ from gildutils import find_component_base
 from gildutils import get_components
 from gildutils import get_repo_url
 
-def component_completer(**kwargs):
-	return sorted(get_components())
+from gildutils import component_completer
+from gildutils import branch_completer
 
 parser = argparse.ArgumentParser(description='Check out a specific branch for a component and apply patches')
 parser.add_argument('component', help="The name of the component to be checked out.").completer = component_completer
-parser.add_argument('branch', help="The branch as specified in the series.")
+parser.add_argument('branch', help="The branch as specified in the series.").completer = branch_completer
 parser.add_argument('--skip-patches', action='store_true', help="Don't apply the patches, but only checkout.")
 
 try:

@@ -5,7 +5,7 @@ import os.path
 import sys
 
 if False:
-	from typing import List, Iterable
+	from typing import Any, List, Iterable
 
 def is_gild_root(path):
 	# type: (str) -> bool
@@ -65,3 +65,12 @@ def get_repo_url(component_base):
 	# type: (str) -> str
 	"""Given the full path to a component, returns it repo URL"""
 	return open(os.path.join(component_base, "repo.url")).readline().strip()
+
+# Various completers
+def component_completer(**kwargs):
+	# type: (Any) -> List[str]
+	return sorted(get_components())
+
+def branch_completer(prefix, parsed_args, **kwargs):
+	# type: (str, Any, Any) -> List[str]
+	return [s.branch for s in get_series_of_component(parsed_args.component)]
