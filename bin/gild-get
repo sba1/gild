@@ -8,17 +8,27 @@
 
 import os.path
 import sys
+import argcomplete
 import argparse
 from subprocess import call
 
 from gildutils import find_component_base
+from gildutils import branch_completer
+from gildutils import component_completer
 
 parser = argparse.ArgumentParser(description='Download the baseline distribution')
-parser.add_argument('component')
-parser.add_argument('branch')
+parser.add_argument('component').completer = component_completer
+parser.add_argument('branch').completer = branch_completer
 parser.add_argument('--print-url-only', dest='print_url_only', action='store_true', help="""
   just print the URL, but don't download anything
   """)
+
+try:
+	import argcomplete
+	argcomplete.autocomplete(parser)
+except ImportError:
+	pass
+
 args = parser.parse_args()
 
 cdir = os.getcwd()

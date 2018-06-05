@@ -10,6 +10,7 @@ from __future__ import print_function
 import glob
 import os
 import sys
+import argcomplete
 import argparse
 from subprocess import call
 
@@ -24,6 +25,13 @@ components = sorted(get_components())
 parser = argparse.ArgumentParser(description="""
 	Clone or fetch baselines for all components. Available components:
 	""" + ", ".join(components))
+
+try:
+	import argcomplete
+	argcomplete.autocomplete(parser)
+except ImportError:
+	pass
+
 args = parser.parse_args()
 
 for component in components:
