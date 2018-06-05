@@ -3,7 +3,7 @@
 # This script checks out a specific branch version and applies
 # all patches associated to that branch
 #
-# (c) 2014-2016 by Sebastian Bauer
+# (c) 2014-2018 by Sebastian Bauer
 #
 
 from __future__ import print_function
