@@ -12,6 +12,7 @@ import argparse
 from subprocess import call
 
 from gildutils import get_components
+from gildutils import component_completer
 
 root = os.getcwd()
 
@@ -21,7 +22,13 @@ parser = argparse.ArgumentParser(description="""
 	Clone or fetch baselines for all or selected components. Available components:
 	""" + ", ".join(components))
 
-parser.add_argument('component', nargs='*', help="The components which to clone. If not specified, all components are cloned.")
+parser.add_argument('component', nargs='*', help="The components which to clone. If not specified, all components are cloned.").completer = component_completer
+
+try:
+	import argcomplete
+	argcomplete.autocomplete(parser)
+except ImportError:
+	pass
 
 args = parser.parse_args()
 
