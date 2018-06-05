@@ -94,7 +94,7 @@ if len(argv) > 2:
 		command_help = ['-h']
 		del argv[2]
 
-args = parser.parse_args(argv)
+args = parser.parse_known_args(argv)
 
 command = argv[1]
 
