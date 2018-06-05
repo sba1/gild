@@ -33,7 +33,8 @@ def find_component_base(component):
 		if os.path.isdir(base): break
 		last_root = root
 		root = os.path.dirname(root)
-		if root == last_root: sys.exit("No gild folder structure found.")
+		if root == last_root:
+			sys.exit("No gild folder structure for requested component '{0}' found.".format(component))
 	return base
 
 def get_components():
