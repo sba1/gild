@@ -9,4 +9,4 @@ update-readme:
 
 .PHONY: type-check
 type-check:
-	cd bin && mypy --disallow-untyped-defs --py2 *.py
+	cd bin && mypy --disallow-untyped-defs --ignore-missing-imports --py2 *.py
