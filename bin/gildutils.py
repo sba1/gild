@@ -75,3 +75,12 @@ def component_completer(**kwargs):
 def branch_completer(prefix, parsed_args, **kwargs):
 	# type: (str, Any, Any) -> List[str]
 	return [s.branch for s in get_series_of_component(parsed_args.component)]
+
+def autocomplete(parser):
+	# type: (str) -> None
+	"""Calls argcomplete.autocomplete() if available"""
+	try:
+		import argcomplete
+		argcomplete.autocomplete(parser)
+	except ImportError:
+		pass
