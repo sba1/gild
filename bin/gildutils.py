@@ -77,7 +77,7 @@ def branch_completer(prefix, parsed_args, **kwargs):
 	return [s.branch for s in get_series_of_component(parsed_args.component)]
 
 def autocomplete(parser):
-	# type: (str) -> None
+	# type: (Any) -> None
 	"""Calls argcomplete.autocomplete() if available"""
 	try:
 		import argcomplete
