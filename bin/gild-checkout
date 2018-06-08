@@ -21,18 +21,13 @@ from gildutils import get_repo_url
 
 from gildutils import component_completer
 from gildutils import branch_completer
+from gildutils import autocomplete
 
 parser = argparse.ArgumentParser(description='Check out a specific branch for a component and apply patches')
 parser.add_argument('component', help="The name of the component to be checked out.").completer = component_completer
 parser.add_argument('branch', help="The branch as specified in the series.").completer = branch_completer
 parser.add_argument('--skip-patches', action='store_true', help="Don't apply the patches, but only checkout.")
-
-try:
-	import argcomplete
-	argcomplete.autocomplete(parser)
-except ImportError:
-	pass
-
+autocomplete(parser)
 args = parser.parse_args()
 
 # The base path

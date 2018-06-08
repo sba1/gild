@@ -17,6 +17,7 @@ from subprocess import call
 from gildutils import get_components
 from gildutils import get_series_of_component
 from gildutils import find_component_base
+from gildutils import autocomplete
 
 root = os.getcwd()
 
@@ -25,13 +26,7 @@ components = sorted(get_components())
 parser = argparse.ArgumentParser(description="""
 	Clone or fetch baselines for all components. Available components:
 	""" + ", ".join(components))
-
-try:
-	import argcomplete
-	argcomplete.autocomplete(parser)
-except ImportError:
-	pass
-
+autocomplete(parser)
 args = parser.parse_args()
 
 for component in components:

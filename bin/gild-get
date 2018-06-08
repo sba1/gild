@@ -15,6 +15,7 @@ from subprocess import call
 from gildutils import find_component_base
 from gildutils import branch_completer
 from gildutils import component_completer
+from gildutils import autocomplete
 
 parser = argparse.ArgumentParser(description='Download the baseline distribution')
 parser.add_argument('component').completer = component_completer

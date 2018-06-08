@@ -20,6 +20,8 @@ from subprocess import call
 from subprocess import check_output
 from xml.dom.minidom import parseString
 
+from gildutils import autocomplete
+
 root = os.getcwd()
 authors_file = None
 
@@ -47,6 +49,7 @@ parser.add_argument('--authors-file', help="""
     Defines a file that contains the  svn login to git author mapping. The
     format for that file is similar to git-svn, i.e., <login> = <git author>.
     """)
+autocomplete(parser)
 args = parser.parse_args()
 
 changed_url = args.changes_url

@@ -16,19 +16,14 @@ from gildutils import find_component_base
 
 from gildutils import component_completer
 from gildutils import branch_completer
+from gildutils import autocomplete
 
 root = os.getcwd()
 
 parser = argparse.ArgumentParser(description='Generate patches for a specific branch of a component')
 parser.add_argument('component').completer = component_completer
 parser.add_argument('branch').completer = branch_completer
-
-try:
-	import argcomplete
-	argcomplete.autocomplete(parser)
-except ImportError:
-	pass
-
+autocomplete(parser)
 args = parser.parse_args()
 
 base = find_component_base(args.component)
