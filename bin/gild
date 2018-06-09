@@ -13,6 +13,8 @@ import sys
 import argparse
 from subprocess import call
 
+from gildutils import autocomplete
+
 DEBUG = False
 
 script = os.path.realpath(sys.argv[0])
@@ -80,11 +82,7 @@ epilog = "Available commands:\n{0}".format("\n".join(["   " + command.ljust(widt
 parser = argparse.ArgumentParser(description="Manage patches using git", epilog=epilog, formatter_class=argparse.RawDescriptionHelpFormatter)
 parser.add_argument('commmand', help="The command to be invoked.").completer = lambda **kwargs: commands
 parser.add_argument('args', nargs='*', help="Further command-specific arguments.")
-try:
-	import argcomplete
-	argcomplete.autocomplete(parser)
-except ImportError:
-	pass
+autocomplete(parser)
 
 # Manually filter -h that was meant for a command
 argv = sys.argv
