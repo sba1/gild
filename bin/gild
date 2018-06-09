@@ -84,6 +84,10 @@ parser.add_argument('commmand', help="The command to be invoked.").completer = l
 parser.add_argument('args', nargs='*', help="Further command-specific arguments.")
 autocomplete(parser)
 
+if len(sys.argv) == 1:
+	parser.print_help()
+	sys.exit(0)
+
 # Manually filter -h that was meant for a command
 argv = sys.argv
 command_help = []
