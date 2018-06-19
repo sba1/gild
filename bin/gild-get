@@ -8,7 +8,6 @@
 
 import os.path
 import sys
-import argcomplete
 import argparse
 from subprocess import call
 
@@ -23,13 +22,7 @@ parser.add_argument('branch').completer = branch_completer
 parser.add_argument('--print-url-only', dest='print_url_only', action='store_true', help="""
   just print the URL, but don't download anything
   """)
-
-try:
-	import argcomplete
-	argcomplete.autocomplete(parser)
-except ImportError:
-	pass
-
+autocomplete(parser)
 args = parser.parse_args()
 
 cdir = os.getcwd()
