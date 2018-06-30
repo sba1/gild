@@ -13,6 +13,7 @@ from subprocess import call
 from gildutils import get_components
 from gildutils import get_series_of_component
 from gildutils import find_component_base
+from gildutils import get_branch_of_current_checkout
 
 from gildutils import component_completer
 from gildutils import branch_completer
@@ -27,6 +28,10 @@ autocomplete(parser)
 args = parser.parse_args()
 
 base = find_component_base(args.component)
+
+current_branch = get_branch_of_current_checkout(args.component)
+if args.branch != current_branch:
+	sys.exit("Specified branch '{0}' does not match checked out branch '{1}'".format(args.branch, current_branch))
 
 # The series file relating branches to checkout ids
 series = os.path.join(base, "series")

@@ -2,6 +2,7 @@
 
 import glob
 import os.path
+import subprocess
 import sys
 
 if False:
@@ -44,6 +45,13 @@ def get_components():
 	if root is None: sys.exit("No gild folder structure found.")
 	# FIXME: Should probably return all names without the prefix (instead just the last pathname)
 	return [os.path.basename(os.path.dirname(p)) for p in glob.glob(os.path.join(root, "*","*.url"))]
+
+def get_branch_of_current_checkout(component):
+	# type: (str) -> str
+	"""To a given component, return the base of the branch currently checked out in the repo folder"""
+	base = find_component_base(component)
+	repo = os.path.join(base, 'repo')
+	return subprocess.check_output(["git", "symbolic-ref", "--short", "HEAD"], cwd=repo).strip()
 
 class PatchSeries(object):
 	def __init__(self, branch, checkout, url):
