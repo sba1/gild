@@ -3,7 +3,7 @@
 # This script checks out a specific branch version and applies
 # all patches associated to that branch
 #
-# (c) 2014-2018 by Sebastian Bauer
+# (c) 2014-2019 by Sebastian Bauer
 #
 
 from __future__ import print_function
@@ -67,7 +67,15 @@ if not os.path.exists(repo_path):
 
 os.chdir(repo_path)
 
-call(["git", "checkout", checkout, "-B", branch])
+def co():
+	return call(["git", "checkout", checkout, "-B", branch])
+
+if co() != 0:
+	# Try to fetch all existing refs
+	call(["git", "fetch", "origin"])
+	if co() != 0:
+		sys.exit('Failed to checkout {0}'.format(branch))
+
 call(["git", "branch", "-f", branch+"-base"])
 
 # Check if there are any submodules and warn (for now)
