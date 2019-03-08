@@ -74,6 +74,7 @@ if co() != 0:
 	# Try to fetch all existing refs
 	call(["git", "fetch", "origin"])
 	if co() != 0:
+		# TODO: Fix failure on shallow clones
 		sys.exit('Failed to checkout {0}'.format(branch))
 
 call(["git", "branch", "-f", branch+"-base"])
