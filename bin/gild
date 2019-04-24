@@ -1,8 +1,8 @@
-#! /usr/bin/python
+#! /usr/bin/env python2.7
 #
 # The main gild script that wraps the commands.
 #
-# (c) 2015,2016 by Sebastian Bauer
+# (c) 2015-2019 by Sebastian Bauer
 #
 
 from __future__ import print_function
