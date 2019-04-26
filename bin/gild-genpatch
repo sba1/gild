@@ -1,8 +1,8 @@
-#! /usr/bin/python
+#! /usr/bin/env python2.7
 #
 # This script generates the patches for a specific branch.
 #
-# (c) 2014-2018 by Sebastian Bauer
+# (c) 2014-2019 by Sebastian Bauer
 #
 
 import os.path
