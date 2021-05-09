@@ -10,3 +10,8 @@ update-readme:
 .PHONY: type-check
 type-check:
 	cd bin && mypy --disallow-untyped-defs --ignore-missing-imports --py2 *.py
+
+# Target for setting up the CI environment
+.PHONY: ci-setup
+ci-setup:
+	sudo python3 -m pip install -U mypy
