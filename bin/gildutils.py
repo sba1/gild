@@ -67,8 +67,9 @@ def get_series_of_component(component):
 	series = os.path.join(base, "series")
 	lines = [line.strip() for line in open(series)]
 	for line in lines:
-		branch, checkout, url = line.split("\t")
-		yield PatchSeries(branch, checkout, url)
+		if line:
+		    branch, checkout, url = line.split("\t")
+		    yield PatchSeries(branch, checkout, url)
 
 def get_repo_url(component_base):
 	# type: (str) -> str
