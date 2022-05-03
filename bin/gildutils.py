@@ -51,7 +51,7 @@ def get_branch_of_current_checkout(component):
 	"""To a given component, return the base of the branch currently checked out in the repo folder"""
 	base = find_component_base(component)
 	repo = os.path.join(base, 'repo')
-	return subprocess.check_output(["git", "symbolic-ref", "--short", "HEAD"], cwd=repo).strip()
+	return subprocess.check_output(["git", "symbolic-ref", "--short", "HEAD"], cwd=repo, encoding='UTF-8').strip()
 
 class PatchSeries(object):
 	def __init__(self, branch, checkout, url):

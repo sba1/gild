@@ -9,7 +9,7 @@ update-readme:
 
 .PHONY: type-check
 type-check:
-	cd bin && mypy --disallow-untyped-defs --ignore-missing-imports --py2 *.py
+	cd bin && mypy --disallow-untyped-defs --ignore-missing-imports *.py
 
 # Target for setting up the CI environment
 .PHONY: ci-setup
