@@ -1,4 +1,4 @@
-#! /usr/bin/env python2.7
+#! /usr/bin/env python3
 #
 # This script generates the patches for a specific branch.
 #

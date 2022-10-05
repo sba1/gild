@@ -1,4 +1,4 @@
-#! /usr/bin/env python2.7
+#! /usr/bin/env python3
 #
 # This script shows all packages that can be cloned and the
 # branches that can be checked out
