@@ -27,6 +27,7 @@ parser = argparse.ArgumentParser(description='Check out a specific branch for a 
 parser.add_argument('component', help="The name of the component to be checked out.").completer = component_completer
 parser.add_argument('branch', help="The branch as specified in the series.").completer = branch_completer
 parser.add_argument('--skip-patches', action='store_true', help="Don't apply the patches, but only checkout.")
+parser.add_argument('--sha1', action='store_true', help="The 'checkout' is a SHA1 and not a tag or branch. This will be slower to checkout.")
 autocomplete(parser)
 args = parser.parse_args()
 
@@ -63,7 +64,14 @@ if not os.path.exists(repo_path):
 	os.chdir(base)
 
 	# clone branch 'checkout' or repo_url to 'repo'
-	call(["git", "clone", repo_url, "--depth=1", "-b", checkout, "repo"])
+	if not args.sha1:
+		call(["git", "clone", repo_url, "--depth=1", "-b", checkout, "repo"])
+	else:
+		# But, if it is a commit id/sha1 then we need to pull the WHOLE
+		# thing! This increases the amount of time to clone, but since
+		# this is only done at the beginning of a new ADTOOLS
+		# cross-compilation thenperhaps it is not that big a deal.
+		call(["git", "clone", repo_url, "repo"])
 
 os.chdir(repo_path)
 
