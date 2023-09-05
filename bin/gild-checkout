@@ -12,6 +12,7 @@ import glob
 import os.path
 import sys
 import argparse
+import re
 
 from subprocess import call
 
@@ -62,8 +63,14 @@ if not os.path.exists(repo_path):
 	repo_url = get_repo_url(base)
 	os.chdir(base)
 
-	# clone branch 'checkout' or repo_url to 'repo'
-	call(["git", "clone", repo_url, "--depth=1", "-b", checkout, "repo"])
+	# Determine if `checkout' is a SHA1.
+	#
+	# If it is, we must clone out the full repository before checking out
+	# `checkout'
+	if re.search("^[A-Fa-f0-9]{40}$", checkout):
+		call(["git", "clone", repo_url, "repo"])
+	else:
+		call(["git", "clone", repo_url, "--depth=1", "-b", checkout, "repo"])
 
 os.chdir(repo_path)
 
