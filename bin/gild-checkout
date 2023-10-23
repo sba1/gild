@@ -93,6 +93,13 @@ call(["git", "branch", "-f", branch+"-base"])
 if os.path.exists(".gitmodules") and os.path.isfile(".gitmodules"):
 	print("Checkout defines some git submodules.", file=sys.stderr)
 
+# Create a file in `base' named version.txt of the version that was
+# just checked out. This makes it easier and more consistent in the
+# native-build/makefile to determine the version of the component.
+version_file = open(os.path.join(base, "version.txt"),"w")
+version_file.write(branch + "\n")
+version_file.close()
+
 if args.skip_patches:
 	sys.exit()
 
